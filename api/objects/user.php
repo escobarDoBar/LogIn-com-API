@@ -12,6 +12,7 @@ class User{
     public $lastname;
     public $email;
     public $password;
+    public $level;
  
     // constructor
     public function __construct($db){
@@ -27,7 +28,7 @@ function create(){
                 firstname = :firstname,
                 lastname = :lastname,
                 email = :email,
-                password = :password
+                password = :password,
                 level = :level";
  
     // prepare the query
@@ -38,17 +39,16 @@ function create(){
     $this->lastname=htmlspecialchars(strip_tags($this->lastname));
     $this->email=htmlspecialchars(strip_tags($this->email));
     $this->password=htmlspecialchars(strip_tags($this->password));
-    $this->level=htmlspecialchars(strip_tags($this->level));
  
     // bind the values
     $stmt->bindParam(':firstname', $this->firstname);
     $stmt->bindParam(':lastname', $this->lastname);
     $stmt->bindParam(':email', $this->email);
+    $stmt->bindParam(':level', $this->level);
  
     // hash the password before saving to database
     $password_hash = password_hash($this->password, PASSWORD_BCRYPT);
     $stmt->bindParam(':password', $password_hash);
-    $stmt->bindParam(':level', $this->level);
  
     // execute the query, also check if query was successful
     if($stmt->execute()){
@@ -93,6 +93,7 @@ function emailExists(){
         $this->firstname = $row['firstname'];
         $this->lastname = $row['lastname'];
         $this->password = $row['password'];
+        $this->level = $row['level'];
  
         // return true because email exists in the database
         return true;
