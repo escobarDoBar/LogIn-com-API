@@ -1,4 +1,4 @@
-<!doctype html>
+<!doctype html> <!-- ADICIONAR MATRICULA EM INPUT NO LOG IN -->
 <html lang="en">
     <head>
         <!-- Required meta tags -->
@@ -92,7 +92,10 @@
                 </form>
                 `;
      
-            clearResponse();
+            clearResponse(); $data = json_decode(file_get_contents("php://input"));
+    include_once("api/config/database.php");
+    include_once('objects/user.php');
+ 
             $('#content').html(html);
         });
      
@@ -132,7 +135,7 @@
         $(document).on('submit', '#login_form', function(){
  
             // get form data
-             var login_form=$(this);
+            var login_form=$(this);
             var form_data=JSON.stringify(login_form.serializeObject());
 
             // submit form data to api
